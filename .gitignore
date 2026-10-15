@@ -1,0 +1,18 @@
+# 개인정보 (career-ai-data 저장소에서 관리)
+experience/
+applications/
+_workspace/
+
+# 비밀값
+.env
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+.ruff_cache/
+
+# 예시 데이터는 커밋한다
+!examples/**/experience/
+!examples/**/applications/

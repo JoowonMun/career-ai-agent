@@ -1,0 +1,8 @@
+{
+  "questions": [
+    {"id": 1, "text": "샘플전자에 지원한 동기와 입사 후 하고 싶은 일을 작성해 주세요.", "limit": 500,
+     "count_mode": "with_spaces", "count_newlines": false, "hangul_bytes": 2, "source": "posting"},
+    {"id": 2, "text": "데이터나 모델의 품질 문제를 해결한 경험을 작성해 주세요.", "limit": 700,
+     "count_mode": "with_spaces", "count_newlines": false, "hangul_bytes": 2, "source": "posting"}
+  ]
+}

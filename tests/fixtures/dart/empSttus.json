@@ -1,0 +1,4 @@
+{"status":"000","message":"정상","list":[
+{"rcept_no":"20260320000123","corp_cls":"Y","corp_code":"00126380","corp_name":"삼성전자","fo_bbm":"DX","sexdstn":"남","rgllbr_co":"20,000","cnttk_co":"500","sm":"20,500","avrg_cnwk_sdytrn":"15.0","fyer_salary_totamt":"2,460,000,000,000","jan_salary_am":"120,000,000","rm":"-","stlm_dt":"2025-12-31"},
+{"rcept_no":"20260320000123","corp_cls":"Y","corp_code":"00126380","corp_name":"삼성전자","fo_bbm":"DX","sexdstn":"여","rgllbr_co":"9,000","cnttk_co":"500","sm":"9,500","avrg_cnwk_sdytrn":"12.0","fyer_salary_totamt":"940,000,000,000","jan_salary_am":"99,000,000","rm":"-","stlm_dt":"2025-12-31"}
+]}

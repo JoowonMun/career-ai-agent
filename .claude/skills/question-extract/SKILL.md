@@ -1,0 +1,39 @@
+---
+name: question-extract
+description: 채용 공고 본문, 붙여넣은 텍스트, 스크린샷, 지원 페이지 화면에서 자기소개서 문항과 글자수 제한, 세는 방식을 뽑아 questions.json으로 저장할 때 사용한다.
+---
+
+# 자소서 문항 추출
+
+## 출력
+`{지원 폴더}/questions.json`
+```json
+{
+  "questions": [
+    {"id": 1, "text": "문항 원문", "limit": 700, "count_mode": "with_spaces",
+     "count_newlines": false, "hangul_bytes": 2, "source": "posting"}
+  ]
+}
+```
+- 문항이 없는 공고는 `{"questions": []}`.
+- 저장한 뒤 `uv run career-ai count <지원 폴더>`를 실행해 형식을 확인한다. 초안이 아직 없으므로 모든 status가 `missing`이면 정상이다. 오류가 나면 JSON을 고친다.
+
+## 문항 찾는 순서
+1. `posting.md` 본문에 문항이 있으면 추출한다 → `source: "posting"`
+2. 없으면 사용자에게 묻는다:
+   - (a) 지원 페이지의 문항 텍스트를 붙여넣기 → `source: "paste"`
+   - (b) 문항 화면 스크린샷 파일 경로 주기 → Read 도구로 이미지를 열어 읽는다 → `source: "screenshot"`
+   - (확장 스킬) 공고 수집 확장 스킬이 문항(글자수·세는 방식 포함)을 받아 왔으면 그대로 저장한다. 기업 채용 사이트에 다른 기준이 적혀 있으면 그쪽을 따른다.
+   - (c) 지원 페이지를 브라우저로 열기 → `uv run career-ai fetch --interactive <지원 URL>`을 Bash 시간 제한 600000ms로 실행한다. 실행 전에 사용자에게 안내한다: "열린 브라우저에서 직접 로그인해 문항 화면까지 이동한 뒤 브라우저 창을 닫아 주세요. 도구는 화면의 글자만 읽고 입력이나 제출은 하지 않습니다." 결과 `page_text`에서 문항을 뽑는다 → `source: "interactive"`
+   - (d) 자소서 문항 없음 → `{"questions": []}`
+
+## 규칙
+- 문항 문장은 원문 그대로 옮긴다. 요약하거나 다듬지 않는다.
+- 글자수: "700자 이내", "최대 1,000자", "500자 내외" → `limit`에 숫자만. "내외"는 숫자를 그대로 쓰고 사용자에게 알린다.
+- 글자수 제한이 없으면 `limit: null`.
+- 세는 방식: "공백 포함" → `with_spaces`, "공백 제외" → `without_spaces`, "byte"/"바이트" → `bytes`.
+- **세는 방식이 적혀 있지 않으면 추측하지 말고 사용자에게 묻는다.** 사용자도 모르면 `with_spaces`와 `count_newlines: true`로 정한다. 공백과 줄바꿈을 모두 세는 쪽이 가장 엄격해서, 이 기준으로 통과하면 어느 방식이든 통과하기 때문이다. 그렇게 정했다고 사용자에게 말한다.
+- `bytes`인데 한글 바이트 수가 불분명하면 `hangul_bytes: 2`로 두고 알린다.
+- 줄바꿈을 글자수에 넣는다고 적혀 있으면 `count_newlines: true`, 넣지 않는다고 적혀 있으면 `false`. 세는 방식이 적혀 있는데 줄바꿈 언급만 없으면 `false`.
+- 한 문항에 하위 질문(①②③)이 여러 개면 한 문항으로 둔다.
+- `id`는 1부터 순서대로.

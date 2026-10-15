@@ -1,0 +1,21 @@
+{
+  "extraKnownMarketplaces": {
+    "im-not-ai": {
+      "source": { "source": "github", "repo": "epoko77-ai/im-not-ai" }
+    },
+    "karpathy-skills": {
+      "source": { "source": "github", "repo": "forrestchang/andrej-karpathy-skills" }
+    }
+  },
+  "enabledPlugins": {
+    "humanize-korean@im-not-ai": true,
+    "andrej-karpathy-skills@karpathy-skills": true
+  },
+  "permissions": {
+    "allow": [
+      "Bash(uv run career-ai:*)",
+      "Bash(uv run pytest:*)",
+      "Bash(uv run ruff:*)"
+    ]
+  }
+}

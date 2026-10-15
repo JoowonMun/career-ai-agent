@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wantedRoot>
+<total>2</total>
+<startPage>1</startPage>
+<display>100</display>
+<wanted>
+<wantedAuthNo>K151612610130001</wantedAuthNo>
+<company>주식회사 한빛데이터</company>
+<busino>1234567890</busino>
+<indTpNm>응용 소프트웨어 개발 및 공급업</indTpNm>
+<title>LLM 엔지니어(경력 3년 이상)</title>
+<salTpNm>연봉</salTpNm>
+<sal>연봉 5000만원 ~ 6000만원</sal>
+<minSal>50000000</minSal>
+<maxSal>60000000</maxSal>
+<region>서울 강남구</region>
+<holidayTpNm>주5일근무</holidayTpNm>
+<minEdubg>대졸(4년)</minEdubg>
+<career>경력</career>
+<regDt>26-10-10</regDt>
+<closeDt>26-11-30</closeDt>
+<infoSvc>VALIDATION</infoSvc>
+<wantedInfoUrl>https://www.work24.go.kr/wk/a/b/1500/empDetailAuthView.do?wantedAuthNo=K151612610130001</wantedInfoUrl>
+<wantedMobileInfoUrl>https://m.work24.go.kr/x</wantedMobileInfoUrl>
+<empTpCd>10</empTpCd>
+<jobsCd>133100</jobsCd>
+</wanted>
+<wanted>
+<wantedAuthNo>K151612610130002</wantedAuthNo>
+<company>대한제조</company>
+<busino>2222222222</busino>
+<indTpNm>자동차 부품 제조업</indTpNm>
+<title>데이터 엔지니어</title>
+<salTpNm>월급</salTpNm>
+<sal>월급 300만원 ~ 400만원</sal>
+<minSal>3000000</minSal>
+<maxSal>4000000</maxSal>
+<region>경기 화성시</region>
+<holidayTpNm>주5일근무</holidayTpNm>
+<minEdubg>학력무관</minEdubg>
+<career>관계없음</career>
+<regDt>26-10-11</regDt>
+<closeDt>채용시까지 26-12-31</closeDt>
+<infoSvc>VALIDATION</infoSvc>
+<wantedInfoUrl>https://www.work24.go.kr/wk/a/b/1500/empDetailAuthView.do?wantedAuthNo=K151612610130002</wantedInfoUrl>
+<wantedMobileInfoUrl>https://m.work24.go.kr/y</wantedMobileInfoUrl>
+<empTpCd>20</empTpCd>
+<jobsCd>133200</jobsCd>
+</wanted>
+</wantedRoot>

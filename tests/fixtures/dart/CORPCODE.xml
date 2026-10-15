@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<result>
+    <list>
+        <corp_code>00126380</corp_code>
+        <corp_name>삼성전자</corp_name>
+        <corp_eng_name>SAMSUNG ELECTRONICS CO,.LTD</corp_eng_name>
+        <stock_code>005930</stock_code>
+        <modify_date>20250101</modify_date>
+    </list>
+    <list>
+        <corp_code>00258999</corp_code>
+        <corp_name>삼성전자서비스</corp_name>
+        <corp_eng_name>Samsung Electronics Service</corp_eng_name>
+        <stock_code> </stock_code>
+        <modify_date>20240101</modify_date>
+    </list>
+    <list>
+        <corp_code>01111111</corp_code>
+        <corp_name>한빛데이터</corp_name>
+        <corp_eng_name></corp_eng_name>
+        <stock_code> </stock_code>
+        <modify_date>20230101</modify_date>
+    </list>
+    <list>
+        <corp_code>02222222</corp_code>
+        <corp_name>한빛데이터</corp_name>
+        <corp_eng_name></corp_eng_name>
+        <stock_code>123450</stock_code>
+        <modify_date>20230101</modify_date>
+    </list>
+</result>

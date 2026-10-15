@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<response><header><resultCode>00</resultCode><resultMsg>NORMAL SERVICE.</resultMsg></header>
+<body><items>
+<item><dataCrtYm>202609</dataCrtYm><seq>11111</seq><wkplNm>(주)작은회사</wkplNm><bzowrRgstNo>123456</bzowrRgstNo><wkplRoadNmDtlAddr>서울특별시 종로구 종로 1</wkplRoadNmDtlAddr><wkplJnngStcd>1</wkplJnngStcd><wkplStylDvcd>1</wkplStylDvcd></item>
+<item><dataCrtYm>202609</dataCrtYm><seq>22222</seq><wkplNm>작은회사 부산지점</wkplNm><bzowrRgstNo>123456</bzowrRgstNo><wkplRoadNmDtlAddr>부산광역시 해운대구</wkplRoadNmDtlAddr><wkplJnngStcd>1</wkplJnngStcd><wkplStylDvcd>1</wkplStylDvcd></item>
+<item><dataCrtYm>202609</dataCrtYm><seq>33333</seq><wkplNm>작은회사</wkplNm><bzowrRgstNo>999999</bzowrRgstNo><wkplRoadNmDtlAddr>대구광역시 중구</wkplRoadNmDtlAddr><wkplJnngStcd>2</wkplJnngStcd><wkplStylDvcd>1</wkplStylDvcd></item>
+</items><numOfRows>100</numOfRows><pageNo>1</pageNo><totalCount>3</totalCount></body></response>

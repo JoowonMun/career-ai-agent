@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<response><header><resultCode>00</resultCode><resultMsg>NORMAL SERVICE.</resultMsg></header>
+<body><item><adptDt>20220301</adptDt><bzowrRgstNo>123456</bzowrRgstNo><crrmmNtcAmt>12000000</crrmmNtcAmt><jnngpCnt>42</jnngpCnt><vldtVlKrnNm>응용 소프트웨어 개발 및 공급업</vldtVlKrnNm><wkplNm>(주)작은회사</wkplNm></item></body></response>

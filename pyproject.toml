@@ -1,0 +1,40 @@
+[project]
+name = "career-ai"
+version = "0.1.0"
+description = "채용 공고 분석과 자기소개서·경력기술서 초안 작성 자동화"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "httpx>=0.27",
+    "pillow>=10",
+    "playwright>=1.45",
+    "pydantic>=2.7",
+    "python-dotenv>=1.0",
+    "pyyaml>=6",
+    "regex>=2024.5.15",
+]
+
+[project.scripts]
+career-ai = "career_ai.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/career_ai"]
+
+[dependency-groups]
+dev = ["pytest>=8", "ruff>=0.5"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["live: 실제 외부 API를 호출하는 테스트 (기본 실행에서 제외)"]
+addopts = "-m 'not live'"
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]

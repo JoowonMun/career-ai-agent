@@ -1,0 +1,9 @@
+{
+"lastBuildDate":"Mon, 13 Oct 2026 10:00:00 +0900",
+"total":3,"start":1,"display":4,
+"items":[
+{"title":"<b>삼성전자</b>, 사내 &quot;생성형 AI&quot; 전면 도입","originallink":"https://news.example.com/a1","link":"https://n.news.naver.com/a1","description":"<b>삼성전자</b>가 업무 전반에 생성형 AI를 도입한다.","pubDate":"Fri, 10 Oct 2026 09:30:00 +0900"},
+{"title":"<b>삼성전자</b>, 사내 &quot;생성형 AI&quot; 전면 도입","originallink":"https://other.example.com/dup","link":"https://n.news.naver.com/dup","description":"중복 기사","pubDate":"Fri, 10 Oct 2026 11:00:00 +0900"},
+{"title":"<b>삼성전자</b> 데이터센터 투자 확대","originallink":"","link":"https://n.news.naver.com/a2","description":"데이터센터 &amp; 클라우드 투자","pubDate":"Wed, 15 Apr 2026 08:00:00 +0900"},
+{"title":"오래된 기사","originallink":"https://news.example.com/old","link":"https://n.news.naver.com/old","description":"6개월보다 오래됨","pubDate":"Mon, 01 Apr 2026 08:00:00 +0900"}
+]}
