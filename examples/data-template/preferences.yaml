@@ -16,3 +16,10 @@ soft:                          # 선호 조건: Claude가 점수를 매김
   industries_avoid: []
   ai_investment: high          # high | medium | any
   weights: {ai_investment: 3, tech_match: 3, industry: 2, salary: 2}
+
+free_essay:                    # 공고에 자소서 문항이 없을 때 쓰는 자유 문항 (매번 확인 후 사용)
+  questions:
+    - {text: "지원 동기와 입사 후 포부를 작성해 주십시오.", limit: 800, count_mode: with_spaces, count_newlines: true}
+    - {text: "지원 직무에 필요한 핵심 역량과 이를 보여 주는 경험을 작성해 주십시오.", limit: 800, count_mode: with_spaces, count_newlines: true}
+    - {text: "어려운 문제를 정의하고 해결한 경험을 작성해 주십시오.", limit: 800, count_mode: with_spaces, count_newlines: true}
+    - {text: "다른 사람과 협업한 경험과 본인이 일하는 방식을 작성해 주십시오.", limit: 800, count_mode: with_spaces, count_newlines: true}

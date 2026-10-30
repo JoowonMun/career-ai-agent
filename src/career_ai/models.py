@@ -6,7 +6,7 @@ from typing import Literal
 from pydantic import BaseModel, Field
 
 CountMode = Literal["with_spaces", "without_spaces", "bytes"]
-QuestionSource = Literal["posting", "platform", "paste", "screenshot", "interactive"]
+QuestionSource = Literal["posting", "platform", "paste", "screenshot", "interactive", "free"]
 
 
 class Question(BaseModel):

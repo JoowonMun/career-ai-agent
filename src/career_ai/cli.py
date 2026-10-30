@@ -62,7 +62,13 @@ def cmd_count(args: argparse.Namespace) -> int:
         return fail("config", str(e))
     if not (app_dir / "questions.json").exists():
         return fail("not_found", f"questions.json이 없습니다: {app_dir}")
-    results = check_application(app_dir)
+    if (args.question is None) != (args.file is None):
+        return fail("usage", "--question과 --file은 함께 써야 합니다")
+    if args.file:
+        results = check_application(app_dir, {args.question: Path(args.file)})
+        results = [r for r in results if r["id"] == args.question]
+    else:
+        results = check_application(app_dir)
     final, error = None, None
     if args.write_final:
         try:
@@ -257,6 +263,15 @@ def cmd_fetch(args: argparse.Namespace) -> int:
     return 0 if "error" not in result else 1
 
 
+def cmd_images(args: argparse.Namespace) -> int:
+    from career_ai.collectors import images
+
+    with httpx.Client(timeout=60) as client:
+        saved = images.download_and_slice(client, args.urls, Path(args.out))
+    emit({"image_files": [str(f) for f in saved["files"]], "failed": saved["failed"]})
+    return 0 if saved["files"] else 1
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="career-ai")
     parser.add_argument("--version", action="version", version=f"career-ai {__version__}")
@@ -268,6 +283,8 @@ def build_parser() -> argparse.ArgumentParser:
     p = sub.add_parser("count", help="지원 폴더의 문항별 글자수 검증")
     p.add_argument("app_dir", help="지원 폴더 경로 또는 applications/ 아래 폴더 이름")
     p.add_argument("--write-final", action="store_true", help="모두 통과하면 final.md 생성")
+    p.add_argument("--question", type=int, help="--file과 함께: 이 문항의 설정으로 셈")
+    p.add_argument("--file", help="--question과 함께: q{id}_final.md 대신 셀 파일")
     p.set_defaults(handler=cmd_count)
 
     p = sub.add_parser("clean", help="근거 주석 제거와 줄바꿈 정리")
@@ -309,6 +326,11 @@ def build_parser() -> argparse.ArgumentParser:
                    help="보이는 브라우저로 열고, 창을 닫으면 닫기 직전 화면을 읽음")
     p.add_argument("--save-html", help="페이지 HTML을 이 경로에 저장 (파서 fixture용)")
     p.set_defaults(handler=cmd_fetch)
+
+    p = sub.add_parser("images", help="공고 이미지 내려받아 Claude가 읽을 크기로 자르기")
+    p.add_argument("urls", nargs="+", help="fetch 결과의 image_urls")
+    p.add_argument("--out", required=True, help="저장 폴더 (예: 지원 폴더/posting-images)")
+    p.set_defaults(handler=cmd_images)
 
     # 개인 환경 전용 확장(career_ai/extensions/*.py). 모듈이 없으면 명령도 없다.
     for module in pkgutil.iter_modules(extensions.__path__):

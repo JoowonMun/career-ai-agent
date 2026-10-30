@@ -38,3 +38,20 @@ def test_download_and_slice_skips_failed_urls(tmp_path):
             client, ["https://cdn.test/a.webp", "https://cdn.test/bad.webp"], tmp_path)
     assert [f.name for f in result["files"]] == ["posting-1-01.png"]
     assert result["failed"] == ["https://cdn.test/bad.webp"]
+
+
+def test_images_command_saves_slices(tmp_path, monkeypatch, capsys):
+    import json
+
+    from career_ai.cli import main
+
+    real_client = httpx.Client
+    image = png_bytes(800, 500)
+    transport = httpx.MockTransport(lambda request: httpx.Response(200, content=image))
+    monkeypatch.setattr(httpx, "Client", lambda **kw: real_client(transport=transport, **kw))
+    out = tmp_path / "posting-images"
+
+    assert main(["images", "https://cdn.test/a.png", "--out", str(out)]) == 0
+    result = json.loads(capsys.readouterr().out)
+    assert result["image_files"] == [str(out / "posting-1-01.png")]
+    assert result["failed"] == []

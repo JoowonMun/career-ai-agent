@@ -89,3 +89,26 @@ def test_page_without_question_boxes_returns_empty(browser_ok):
     finally:
         browser.close()
         pw.stop()
+
+
+def _png(path, width, height):
+    from PIL import Image
+
+    Image.new("RGB", (width, height), "white").save(path)
+
+
+def test_fetch_reads_iframe_text_and_large_images(browser_ok, tmp_path):
+    _png(tmp_path / "tall.png", 600, 2000)
+    _png(tmp_path / "logo.png", 120, 60)
+    (tmp_path / "inner.html").write_text(
+        '<html><body><p>상세요강 본문</p><img src="tall.png"><img src="tall.png">'
+        '<img src="logo.png"></body></html>', encoding="utf-8")
+    (tmp_path / "outer.html").write_text(
+        '<html><body><h1>모집요강 요약</h1><img src="logo.png">'
+        '<iframe src="inner.html"></iframe></body></html>', encoding="utf-8")
+
+    result = page.fetch((tmp_path / "outer.html").as_uri())
+
+    assert "모집요강 요약" in result["posting_text"]
+    assert "상세요강 본문" in result["posting_text"]
+    assert result["image_urls"] == [(tmp_path / "tall.png").as_uri()]

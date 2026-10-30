@@ -9,12 +9,16 @@ import regex
 
 from career_ai.models import CountMode, QuestionSet
 
-UNDER_RATIO = 0.8
+# 제한보다 이만큼 넘게 비면 미달이다. 800자 문항은 770자부터 통과 (사용자 결정, 2026-10-27).
+UNDER_MARGIN = 30
+# 이 글자수 이상(또는 제한 없음)인 문항은 첫 줄에 [제목]을 둔다 (사용자 결정, 2026-10-25).
+TITLE_MIN_LIMIT = 600
 
 _SOURCE_COMMENT = re.compile(r"[ \t]*<!--.*?-->", re.DOTALL)
 _NEWLINE = re.compile(r"\r\n|\r|\n")
 _WHITESPACE = re.compile(r"\s")
 _GRAPHEME = regex.compile(r"\X")
+_TITLE = re.compile(r"^\[[^\]\n]+\]$")
 
 
 _HUMANIZE_SUMMARY = "<!-- HUMANIZE-SUMMARY"
@@ -60,7 +64,7 @@ def judge(length: int, limit: int | None) -> Literal["ok", "over", "under", "no_
         return "no_limit"
     if length > limit:
         return "over"
-    if length < limit * UNDER_RATIO:
+    if length < limit - UNDER_MARGIN:
         return "under"
     return "ok"
 
@@ -72,11 +76,13 @@ def _draft_path(app_dir: Path, question_id: int) -> Path:
     return app_dir / "drafts" / f"q{question_id}_final.md"
 
 
-def check_application(app_dir: Path) -> list[dict]:
+def check_application(app_dir: Path, files: dict[int, Path] | None = None) -> list[dict]:
+    """files로 문항별 파일을 바꿔 셀 수 있다(첨삭 중인 파일 등). 기본은 q{id}_final.md."""
     question_set = QuestionSet.load(app_dir / "questions.json")
+    files = files or {}
     results = []
     for q in question_set.questions:
-        path = _draft_path(app_dir, q.id)
+        path = files.get(q.id) or _draft_path(app_dir, q.id)
         result = {"id": q.id, "file": str(path), "limit": q.limit, "mode": q.count_mode}
         if not path.exists():
             results.append({**result, "length": None, "status": "missing"})
@@ -91,11 +97,15 @@ def check_application(app_dir: Path) -> list[dict]:
         cleaned = normalize(text)
         # 닫히지 않은 주석 등이 남으면 글자수도 최종본도 믿을 수 없다.
         status = "comment_left" if "<!--" in cleaned or "-->" in cleaned else judge(length, q.limit)
+        needs_title = q.limit is None or q.limit >= TITLE_MIN_LIMIT
+        first_line = cleaned.split("\n", 1)[0]
+        if status not in ("over", "comment_left") and needs_title and not _TITLE.match(first_line):
+            status = "no_title"
         results.append({**result, "length": length, "status": status})
     return results
 
 
-BLOCKING_STATUSES = ("over", "missing", "comment_left")
+BLOCKING_STATUSES = ("over", "missing", "comment_left", "no_title")
 
 
 def write_final(app_dir: Path, results: list[dict]) -> Path:

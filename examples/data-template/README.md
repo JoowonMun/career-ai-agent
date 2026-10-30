@@ -10,6 +10,7 @@ career-ai가 쓰는 개인 데이터 저장소입니다. **private으로만 관�
 | `experience/career-master.md` | 기본 경력기술서. 모든 경력과 프로젝트를 빠짐없이 기록 |
 | `experience/projects/*.md` | 프로젝트 1개당 파일 1개 (`_template.md` 양식) |
 | `experience/past-essays/*.md` | 예전에 쓴 자소서 원문 (문체 참고용) |
+| `experience/motives.md` | 선택·전환의 이유, 노력, 태도. 지원서마다 스토리라인을 짤 때 쓰는 재료 |
 | `applications/{회사}_{공고ID}/` | 공고별 분석, 경력기술서, 자소서 |
 
 경험 뱅크에 적힌 내용만 자소서와 경력기술서에 쓰입니다. 사실만 적어 주세요.

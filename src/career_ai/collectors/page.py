@@ -14,6 +14,9 @@ IDLE_TIMEOUT_MS = 10_000
 INTERACTIVE_MAX_SECONDS = 540  # Claude Code의 명령 제한(10분)보다 짧게
 # 비밀번호 칸이 있어도 본문이 이만큼 길면 공고 페이지로 본다(헤더 로그인 폼 등).
 LOGIN_WALL_MAX_CHARS = 1500
+# 이보다 세로로 긴 이미지는 공고 상세로 본다(로고·배너 제외). 예: 잡코리아 상세요강 958×6009.
+MIN_POSTING_IMAGE_HEIGHT = 600
+_IMAGE_SIZES = "els => els.map(e => [e.src, e.naturalHeight])"
 _LOGIN_PATH = re.compile(r"(^|/)(login|signin|sign-in|sign_in|auth)(/|$|\.)", re.IGNORECASE)
 
 
@@ -43,8 +46,25 @@ def read_form_questions(tab) -> list[str] | None:
     return [v for v in values if v]
 
 
+def read_frames(tab) -> tuple[str, list[str]]:
+    """iframe까지 포함한 본문 텍스트와 공고 이미지 주소. 상세요강을 iframe에 넣는 사이트가 많다."""
+    texts, image_urls = [], []
+    for frame in tab.frames:
+        try:
+            text = clean_text(frame.inner_text("body"))
+            sizes = frame.eval_on_selector_all("img", _IMAGE_SIZES)
+        except PlaywrightError:
+            continue  # 광고 프레임 등이 읽는 중에 사라짐
+        if text:
+            texts.append(text)
+        for src, height in sizes:
+            if height >= MIN_POSTING_IMAGE_HEIGHT and src not in image_urls:
+                image_urls.append(src)
+    return "\n\n".join(texts), image_urls
+
+
 def fetch(url: str, save_html: Path | None = None) -> dict:
-    """페이지 본문 텍스트. 사이트 전용 파서는 아직 없어서 parser는 항상 generic이다."""
+    """페이지 본문 텍스트와 공고 이미지 주소. parser는 항상 generic이다(사이트 전용 파서 없음)."""
     with sync_playwright() as pw:
         browser = pw.chromium.launch()
         try:
@@ -54,7 +74,7 @@ def fetch(url: str, save_html: Path | None = None) -> dict:
                 tab.wait_for_load_state("networkidle", timeout=IDLE_TIMEOUT_MS)
             except PlaywrightError:
                 pass  # 광고 등으로 네트워크가 계속 쓰이면 그대로 읽는다.
-            text = clean_text(tab.inner_text("body"))
+            text, image_urls = read_frames(tab)
             has_password = tab.locator("input[type=password]").count() > 0
             final_url = tab.url
             if save_html:
@@ -63,7 +83,8 @@ def fetch(url: str, save_html: Path | None = None) -> dict:
             browser.close()
     if is_login_wall(final_url, text, has_password):
         return {"error": "login_wall", "url": final_url}
-    return {"url": final_url, "parser": "generic", "posting_text": text, "questions": []}
+    return {"url": final_url, "parser": "generic", "posting_text": text, "questions": [],
+            "image_urls": image_urls}
 
 
 def interactive(url: str, profile: Path = PROFILE_DIR) -> dict:
